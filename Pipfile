@@ -7,6 +7,7 @@ name = "pypi"
 "discord.py" = "*"
 daug = "*"
 flake8 = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
