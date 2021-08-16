@@ -1,0 +1,4 @@
+Daug
+discord.py
+flake8
+python-dotenv
