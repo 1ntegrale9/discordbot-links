@@ -1,4 +1,5 @@
 Daug
 discord.py
 flake8
+jishaku
 python-dotenv
