@@ -3,17 +3,16 @@ import os
 
 
 class GoogleAppScriptClient():
-    def __init__(self, sheet):
+    def __init__(self):
         self.url = os.getenv('GAS_URL')
-        self.sheet = sheet
 
-    async def get(self) -> dict:
+    async def get(self, sheet_name) -> dict:
         async with aiohttp.ClientSession() as session:
-            async with session.get(self.url, params={'sheet', self.sheet}) as resp:
+            async with session.get(self.url, params={'sheet', sheet_name}) as resp:
                 return await resp.json()
 
-    async def post(self, data: dict) -> int:
-        payload = {'sheet': self.sheet} | data
+    async def post(self, sheet_name, data: dict) -> int:
+        payload = {'sheet': sheet_name} | data
         async with aiohttp.ClientSession() as session:
             async with session.post(self.url, json=payload) as resp:
                 return resp.status
