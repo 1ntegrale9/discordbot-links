@@ -12,10 +12,10 @@ async def get(tag: str, send) -> discord.Embed:
                 result = await resp.json()
                 values = '`\n`'.join(result[:10])
                 embed = discord.Embed(
-                    title=f'`{tag}`',
-                    description=f'`{values}`' or 'None',
-                    # url=url,
+                    title=tag,
+                    description=values or 'None',
                 )
+                embed.set_footer(text=f'{tag} に紐付くタグの一覧')
                 await send(embed=embed)
             else:
                 json = await resp.json()
@@ -29,9 +29,10 @@ async def save(tag: str, text: str, send) -> str:
                 values = list(json.values())[0]
                 values = '`\n`'.join(values[:10])
                 embed = discord.Embed(
-                    title=f'`{tag}`',
-                    description=f'`{values}`',
+                    title=tag,
+                    description=values,
                 )
+                embed.set_footer(text=f'{tag} に紐付くタグの一覧')
                 await send(embed=embed)
             else:
                 json = await resp.json()
