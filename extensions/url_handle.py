@@ -5,11 +5,11 @@ from utils import save_url
 from utils import hashing
 from utils.dpyexcept import excepter
 
+GUILD_LINKS_ID = 870910390706532382
 
 class UrlHandleCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.guild_id = 870910390706532382
         self.channels = {
             '872967889928486912': '人物',
             '872894495430164610': 'イラスト',
@@ -22,7 +22,7 @@ class UrlHandleCog(commands.Cog):
     async def on_message(self, message: Message):
         if message.guild is None:
             return
-        if message.guild.id != self.guild_id:
+        if message.guild.id != GUILD_LINKS_ID:
             return
         provider = hashing(str(message.author.id))
         text2url = Text2URL(message.content)
@@ -41,7 +41,6 @@ class UrlHandleCog(commands.Cog):
             save_count += 1
         if save_count > 0:
             await message.add_reaction('💾')
-
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(UrlHandleCog(bot))
