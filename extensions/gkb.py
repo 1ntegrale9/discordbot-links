@@ -9,9 +9,8 @@ async def get(tag: str, send) -> discord.Embed:
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{API_URL}/pull', json={'tag': tag}) as resp:
             if int(resp.status) == 200:
-                json = await resp.json()
-                values = list(json.values())[0]
-                values = '`\n`'.join(values[:10])
+                result = await resp.json()
+                values = '`\n`'.join(result[:10])
                 embed = discord.Embed(
                     title=f'`{tag}`',
                     description=f'`{values}`' or 'None',
@@ -20,7 +19,7 @@ async def get(tag: str, send) -> discord.Embed:
                 await send(embed=embed)
             else:
                 json = await resp.json()
-                await send(embed=discord.Embed(description=json['Error']))
+                await send(embed=discord.Embed(description='エラーが発生しました'))
 
 async def save(tag: str, text: str, send) -> str:
     async with aiohttp.ClientSession() as session:
@@ -36,7 +35,7 @@ async def save(tag: str, text: str, send) -> str:
                 await send(embed=embed)
             else:
                 json = await resp.json()
-                await send(embed=discord.Embed(description=json['Error']))
+                await send(embed=discord.Embed(description='エラーが発生しました'))
 
 class GetModal(discord.ui.Modal, title='タグに紐付くテキスト情報の取得'):
     tag = discord.ui.TextInput(
