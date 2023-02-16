@@ -10,15 +10,14 @@ async def pull(tag: str, send) -> discord.Embed:
         async with session.post(f'{API_URL}/pull', json={'tag': tag}) as resp:
             if int(resp.status) == 200:
                 result = await resp.json()
-                values = '`\n`'.join(result[:10])
+                values = '\n'.join(result[:10])
                 embed = discord.Embed(
                     title=tag,
                     description=values or 'None',
                 )
-                embed.set_footer(text=f'{tag} に紐付くタグの一覧')
+                embed.set_footer(text=f'`{tag}` に紐付くテキスト情報/URL一覧')
                 await send(embed=embed)
             else:
-                json = await resp.json()
                 await send(embed=discord.Embed(description='エラーが発生しました'))
 
 async def push(tag1: str, tag2: str, send) -> str:
@@ -27,15 +26,14 @@ async def push(tag1: str, tag2: str, send) -> str:
             if int(resp.status) == 200:
                 json = await resp.json()
                 values = list(json.values())[0]
-                values = '`\n`'.join(values[:10])
+                values = '\n'.join(values[:10])
                 embed = discord.Embed(
                     title=tag1,
                     description=values,
                 )
-                embed.set_footer(text=f'{tag1} に紐付くタグの一覧')
+                embed.set_footer(text=f'`{tag1}` に紐付くテキスト情報/URL一覧')
                 await send(embed=embed)
             else:
-                json = await resp.json()
                 await send(embed=discord.Embed(description='エラーが発生しました'))
 
 class TagModal(discord.ui.Modal, title='2つのテキスト/URLを相互に紐付けて保存'):
@@ -60,7 +58,7 @@ class TagModal(discord.ui.Modal, title='2つのテキスト/URLを相互に紐�
             await push(self.tag1.value, self.tag2.value, interaction.followup.send)
 
     async def on_error(self, interaction: discord.Interaction, error: Exception) -> None:
-        await interaction.response.send_message('問題が発生しました', ephemeral=True)
+        await interaction.response.send_message('エラーが発生しました', ephemeral=True)
         traceback.print_exception(type(error), error, error.__traceback__)
 
 @app_commands.guild_only()
@@ -68,7 +66,7 @@ class GraphKnowledgeBaseCog(commands.GroupCog, group_name='辞書'):
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.command(name='サーバー', description='タグ情報の取得/保存')
+    @app_commands.command(name='サーバー内', description='タグ情報の取得/保存')
     async def guild(self, interaction: discord.Interaction):
         await interaction.response.send_modal(TagModal())
 
