@@ -85,6 +85,7 @@ class GraphKnowledgeBaseCog(commands.GroupCog, group_name='辞書'):
             domain='',
             domain_id='',
             user_id=f'discord_user_{interaction.user.id}',
+            ephemeral=False,
         )
         await interaction.response.send_modal(modal)
 
@@ -95,6 +96,7 @@ class GraphKnowledgeBaseCog(commands.GroupCog, group_name='辞書'):
             domain='discord',
             domain_id=f'discord_guild_{interaction.guild.id}',
             user_id=f'discord_user_{interaction.user.id}',
+            ephemeral=False,
         )
         await interaction.response.send_modal(modal)
 
@@ -104,6 +106,7 @@ class GraphKnowledgeBaseCog(commands.GroupCog, group_name='辞書'):
             domain='discord',
             domain_id=f'discord_user_{interaction.user.id}',
             user_id=f'discord_user_{interaction.user.id}',
+            ephemeral=False,
         )
         await interaction.response.send_modal(modal)
 
